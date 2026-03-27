@@ -33,15 +33,19 @@ def connect_arm():
         print("LSS library not installed yet. Use lab machine or install the required robot libraries first.")
         return False
 
-    lss.initBus(COM_PORT, lssc.LSS_DefaultBaud)
+    try:
+        lss.initBus(COM_PORT, lssc.LSS_DefaultBaud)
 
-    servo2 = lss.LSS(2)
-    servo3 = lss.LSS(3)
-    servo4 = lss.LSS(4)
-    servo5 = lss.LSS(5)
+        servo2 = lss.LSS(2)
+        servo3 = lss.LSS(3)
+        servo4 = lss.LSS(4)
+        servo5 = lss.LSS(5)
 
-    print(f"Connected to robotic arm on {COM_PORT}")
-    return True
+        print(f"Connected to robotic arm on {COM_PORT}")
+        return True
+    except Exception as e:
+        print(f"Failed to connect arm on {COM_PORT}: {e}")
+        return False
 
 
 def move_joint_2(position):
@@ -49,6 +53,7 @@ def move_joint_2(position):
         print("Servo 2 not connected")
         return
     safe_pos = clamp(position, J2_MIN, J2_MAX)
+    print(f"J2 request={position}, safe={safe_pos}")
     servo2.move(safe_pos)
     time.sleep(0.3)
 
@@ -58,6 +63,7 @@ def move_joint_3(position):
         print("Servo 3 not connected")
         return
     safe_pos = clamp(position, J3_MIN, J3_MAX)
+    print(f"J3 request={position}, safe={safe_pos}")
     servo3.move(safe_pos)
     time.sleep(0.3)
 
@@ -67,6 +73,7 @@ def move_joint_4(position):
         print("Servo 4 not connected")
         return
     safe_pos = clamp(position, J4_MIN, J4_MAX)
+    print(f"J4 request={position}, safe={safe_pos}")
     servo4.move(safe_pos)
     time.sleep(0.3)
 

@@ -9,22 +9,19 @@ HOME_J4 = 100
 GRIPPER_OPEN = 0
 GRIPPER_CLOSE = -220
 
-# only trust one working pick pose first
 LEFT_PICK = {"j2": -820, "j3": 720, "j4": 120}
-CENTER_PICK = {"j2": -680, "j3": 580, "j4": 20}
+SAFE_RETRACT = {"j2": -610, "j3": 689, "j4": 373}
+CENTER_PICK = {"j2": -1029, "j3": 894, "j4": 372}
 RIGHT_PICK = {"j2": -780, "j3": 680, "j4": 80}
 
-SAFE_RETRACT = {"j2": -780, "j3": 720, "j4": 80}
-
+PRE_PICK = {"j2": -1029, "j3": 760, "j4": 373}
 PLACE_POS = {"j2": -730, "j3": 650, "j4": 100}
 
-# conservative limits
-J2_MIN = -900
+J2_MIN = -1100
 J2_MAX = -550
 
 J3_MIN = 250
-J3_MAX = 850
+J3_MAX = 950
 
-# keep far away from the -800 extreme for now
 J4_MIN = -500
-J4_MAX = 220
+J4_MAX = 450

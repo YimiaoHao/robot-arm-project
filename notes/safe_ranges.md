@@ -34,3 +34,31 @@
 ## Place Position
 - Place-only test was broadly workable
 - Final place pose still needs confirmation after return-home logic is fixed
+
+## Updated Motion Strategy
+- A direct movement from the current pose to the low table-level pick pose is currently not considered safe
+- A multi-step motion strategy is now preferred:
+  - first move to SAFE_RETRACT
+  - then move above the object (PRE_PICK)
+  - then descend to CENTER_PICK
+
+## Confirmed Candidate CENTER_PICK
+- Real-arm pose captured from FlowArm and read in Python:
+  - J2 = -1029
+  - J3 = 894
+  - J4 = 372
+- This low pose appeared able to pick the object from the table
+- However, it should not be approached directly from arbitrary current poses
+
+## Confirmed Candidate SAFE_RETRACT
+- Real-arm pose captured from FlowArm and read in Python:
+  - J2 = -610
+  - J3 = 689
+  - J4 = 373
+- This pose is higher and safer than the low pick pose
+- It is a suitable candidate for an intermediate retract/travel position
+
+## Current Safety Interpretation
+- The low pick pose itself may be workable
+- The unsafe part is more likely the direct path to reach that pose
+- Therefore, motion planning is now treated as a key safety issue, not just final pose selection
