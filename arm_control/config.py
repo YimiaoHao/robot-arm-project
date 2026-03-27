@@ -11,7 +11,7 @@ GRIPPER_CLOSE = -220
 
 # only trust one working pick pose first
 LEFT_PICK = {"j2": -820, "j3": 720, "j4": 120}
-CENTER_PICK = {"j2": -800, "j3": 700, "j4": 100}
+CENTER_PICK = {"j2": -680, "j3": 580, "j4": 20}
 RIGHT_PICK = {"j2": -780, "j3": 680, "j4": 80}
 
 SAFE_RETRACT = {"j2": -780, "j3": 720, "j4": 80}
