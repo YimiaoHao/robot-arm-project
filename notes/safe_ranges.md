@@ -1,34 +1,36 @@
 # Safe Range Notes
 
 ## Joint 2
-- Safe values: To be confirmed in lab
-- Risky / near-limit values: To be confirmed in lab
-- Notes: testRanges.py suggests around -900 is about parallel with the ground
+- Teacher sample reference suggests around -900 is near a parallel-ground style pose
+- No major abnormal behaviour was specifically identified during current testing
+- Final safe working range still needs to be refined in our own configuration
 
 ## Joint 3
-- Safe values: To be confirmed in lab
-- Risky / near-limit values: To be confirmed in lab
-- Notes: testRanges.py suggests 850 is parallel to the bottom arm and 0 is straight up
+- Teacher sample reference suggests around 850 is near a more extended/parallel pose
+- No major abnormal behaviour was specifically identified during current testing
+- Final safe working range still needs to be refined in our own configuration
 
 ## Joint 4
-- Safe values: To be confirmed in lab
-- Risky / near-limit values: To be confirmed in lab
-- Notes: testRanges.py suggests about -800 is straight up and 0 is straight out from the arm
+- Teacher sample sweep was tested
+- During the first run, one collision/contact-like sound was heard once
+- The same sound did not occur in the second run
+- Later return-home testing also caused contact/red error behaviour
+- Therefore, the extreme lower end of joint 4 movement should be treated conservatively
+- Do not assume the full sample sweep range is safe for normal project actions
 
 ## Gripper
-- Safe values: To be confirmed in lab
-- Risky / near-limit values: To be confirmed in lab
-- Notes: gripper range still needs real testing
+- Open and close actions worked in minimal testing
+- Final grip values may still need adjustment depending on the object used in the demo
 
-## Confirmed Home Position
-- J2: To be confirmed in lab
-- J3: To be confirmed in lab
-- J4: To be confirmed in lab
+## Home Position
+- Current home path is not fully reliable yet
+- Return-home behaviour still needs further refinement
+- A safer retract pose may be needed before final home
 
-## Confirmed Pick Positions
-- LEFT: To be confirmed in lab
-- CENTER: To be confirmed in lab
-- RIGHT: To be confirmed in lab
+## Pick Position
+- CENTER pick appears broadly workable in current testing
+- LEFT and RIGHT are not yet fully validated on real hardware
 
-## Confirmed Place Position
-- PLACE: To be confirmed in lab
+## Place Position
+- Place-only test was broadly workable
+- Final place pose still needs confirmation after return-home logic is fixed

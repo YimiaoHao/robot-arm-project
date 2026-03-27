@@ -1,28 +1,30 @@
 COM_PORT = "COM9"
 
-# Home position placeholders
-HOME_J2 = -900
-HOME_J3 = 850
-HOME_J4 = 300
+# safer temporary home
+HOME_J2 = -850
+HOME_J3 = 800
+HOME_J4 = 100
 
-# Gripper placeholders
+# gripper: keep conservative first
 GRIPPER_OPEN = 0
-GRIPPER_CLOSE = -500
+GRIPPER_CLOSE = -220
 
-# Pick position placeholders
-LEFT_PICK = {"j2": -860, "j3": 760, "j4": 220}
-CENTER_PICK = {"j2": -800, "j3": 700, "j4": 180}
-RIGHT_PICK = {"j2": -740, "j3": 640, "j4": 120}
+# only trust one working pick pose first
+LEFT_PICK = {"j2": -820, "j3": 720, "j4": 120}
+CENTER_PICK = {"j2": -800, "j3": 700, "j4": 100}
+RIGHT_PICK = {"j2": -780, "j3": 680, "j4": 80}
 
-# Place position placeholder
-PLACE_POS = {"j2": -680, "j3": 560, "j4": 60}
+SAFE_RETRACT = {"j2": -780, "j3": 720, "j4": 80}
 
-# Safety limits placeholders
+PLACE_POS = {"j2": -730, "j3": 650, "j4": 100}
+
+# conservative limits
 J2_MIN = -900
-J2_MAX = -450
+J2_MAX = -550
 
-J3_MIN = 0
+J3_MIN = 250
 J3_MAX = 850
 
-J4_MIN = -800
-J4_MAX = 300
+# keep far away from the -800 extreme for now
+J4_MIN = -500
+J4_MAX = 220

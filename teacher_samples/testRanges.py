@@ -6,7 +6,7 @@
 #	Desscription:	An example using the LSS and the Python module.
 #	Mar 2026:		Dr Oisin Cawley
 #					Code to show the ranges of the different servos.
-###############################################################################
+####################################################cd###########################
 
 # Import required liraries
 import time

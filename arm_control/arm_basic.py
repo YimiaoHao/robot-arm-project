@@ -95,5 +95,12 @@ def go_home():
 
 
 def safe_stop():
+    global servo2, servo3, servo4, servo5
     print("Emergency stop triggered")
-    # Expand later if teacher library provides a better stop method
+
+    for servo in [servo2, servo3, servo4, servo5]:
+        if servo is not None:
+            try:
+                servo.hold()
+            except Exception as e:
+                print(f"Safe stop warning: {e}")
