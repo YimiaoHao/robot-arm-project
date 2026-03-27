@@ -59,7 +59,10 @@ def main():
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
 
             if key == ord("s"):
-                state = STATE_SEARCHING
+                if connected:
+                    state = STATE_SEARCHING
+                else:
+                    print("Arm not connected. Vision test only.")
 
         elif state == STATE_SEARCHING:
             cv2.putText(display, "STATE: SEARCHING", (20, 40),
