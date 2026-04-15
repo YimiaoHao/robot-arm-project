@@ -30,17 +30,15 @@ def connect_arm():
     global servo2, servo3, servo4, servo5
 
     if lss is None or lssc is None:
-        print("LSS library not installed yet. Use lab machine or install the required robot libraries first.")
+        print("LSS library not installed yet.")
         return False
 
     try:
         lss.initBus(COM_PORT, lssc.LSS_DefaultBaud)
-
         servo2 = lss.LSS(2)
         servo3 = lss.LSS(3)
         servo4 = lss.LSS(4)
         servo5 = lss.LSS(5)
-
         print(f"Connected to robotic arm on {COM_PORT}")
         return True
     except Exception as e:
@@ -55,7 +53,7 @@ def move_joint_2(position):
     safe_pos = clamp(position, J2_MIN, J2_MAX)
     print(f"J2 request={position}, safe={safe_pos}")
     servo2.move(safe_pos)
-    time.sleep(0.3)
+    time.sleep(0.4)
 
 
 def move_joint_3(position):
@@ -65,7 +63,7 @@ def move_joint_3(position):
     safe_pos = clamp(position, J3_MIN, J3_MAX)
     print(f"J3 request={position}, safe={safe_pos}")
     servo3.move(safe_pos)
-    time.sleep(0.3)
+    time.sleep(0.4)
 
 
 def move_joint_4(position):
@@ -75,7 +73,7 @@ def move_joint_4(position):
     safe_pos = clamp(position, J4_MIN, J4_MAX)
     print(f"J4 request={position}, safe={safe_pos}")
     servo4.move(safe_pos)
-    time.sleep(0.3)
+    time.sleep(0.4)
 
 
 def open_gripper():
@@ -83,7 +81,7 @@ def open_gripper():
         print("Gripper not connected")
         return
     servo5.move(GRIPPER_OPEN)
-    time.sleep(0.5)
+    time.sleep(0.6)
 
 
 def close_gripper():
@@ -91,7 +89,7 @@ def close_gripper():
         print("Gripper not connected")
         return
     servo5.move(GRIPPER_CLOSE)
-    time.sleep(0.5)
+    time.sleep(0.6)
 
 
 def go_home():

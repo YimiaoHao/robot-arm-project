@@ -5,18 +5,20 @@ HOME_J2 = -850
 HOME_J3 = 800
 HOME_J4 = 100
 
-# gripper: keep conservative first
+# ===== gripper =====
 GRIPPER_OPEN = 0
 GRIPPER_CLOSE = -220
 
-LEFT_PICK = {"j2": -820, "j3": 720, "j4": 120}
+# ===== validated poses from real arm =====
 SAFE_RETRACT = {"j2": -610, "j3": 689, "j4": 373}
-CENTER_PICK = {"j2": -1029, "j3": 894, "j4": 372}
-RIGHT_PICK = {"j2": -780, "j3": 680, "j4": 80}
+PRE_PICK     = {"j2": -1029, "j3": 760, "j4": 373}
+CENTER_PICK  = {"j2": -1029, "j3": 894, "j4": 372}
 
-PRE_PICK = {"j2": -1029, "j3": 760, "j4": 373}
-PLACE_POS = {"j2": -730, "j3": 650, "j4": 100}
+# ===== temporary place poses (first draft, can refine later in lab) =====
+PRE_PLACE = {"j2": -820, "j3": 760, "j4": 373}
+PLACE_POS = {"j2": -820, "j3": 830, "j4": 350}
 
+# ===== software safety limits =====
 J2_MIN = -1100
 J2_MAX = -550
 
