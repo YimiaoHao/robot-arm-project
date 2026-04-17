@@ -1,7 +1,7 @@
 import lss
 import lss_const as lssc
 
-PORT = "COM9"   # 以你现场真实端口为准
+PORT = "COM10"   # 以你现场真实端口为准
 
 def main():
     lss.initBus(PORT, lssc.LSS_DefaultBaud)

@@ -62,3 +62,40 @@
 - The low pick pose itself may be workable
 - The unsafe part is more likely the direct path to reach that pose
 - Therefore, motion planning is now treated as a key safety issue, not just final pose selection
+
+## Updated Current-Device Pose Notes
+The latest session indicated that pose values should be treated as device/session-specific. Earlier values collected on a previous setup should not automatically be mixed with the current device’s values.
+
+## Current-Device START_POSE
+- Captured after opening the current machine/setup:
+  - J2 = -1191
+  - J3 = 893
+  - J4 = 575
+
+## Current-Device PRE_PICK Candidate
+- Captured as a working “prepare to grab” style pose:
+  - J2 = 338
+  - J3 = -96
+  - J4 = 465
+
+## Current-Device POST_PICK_LIFT Candidate
+- Captured as a higher lifted pose after grab:
+  - J2 = 263
+  - J3 = -161
+  - J4 = 668
+
+## Current-Device PRE_PLACE Candidate
+- Captured as a transfer/release-area pose:
+  - J2 = 90
+  - J3 = 67
+  - J4 = 614
+
+## Current Safety Interpretation
+- The current session suggests that one consistent set of current-device poses is safer than mixing older and newer calibration values
+- Motion safety should be validated again using this one current-device path:
+  - START_POSE
+  - PRE_PICK
+  - POST_PICK_LIFT
+  - PRE_PLACE
+  - PLACE_POS / release
+- A full automatic sequence has not yet been confirmed using this newer pose set

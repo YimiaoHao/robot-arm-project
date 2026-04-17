@@ -1,29 +1,19 @@
-COM_PORT = "COM9"
+COM_PORT = "COM5"
 
-# safer temporary home
-HOME_J2 = -850
-HOME_J3 = 800
-HOME_J4 = 100
-
-# ===== gripper =====
 GRIPPER_OPEN = 0
 GRIPPER_CLOSE = -220
 
-# ===== validated poses from real arm =====
-SAFE_RETRACT = {"j2": -610, "j3": 689, "j4": 373}
-PRE_PICK     = {"j2": -1029, "j3": 760, "j4": 373}
-CENTER_PICK  = {"j2": -1029, "j3": 894, "j4": 372}
+START_POSE = {"j2": -1191, "j3": 893, "j4": 575}
+PRE_PICK = {"j2": 338, "j3": -96, "j4": 465}
+POST_PICK_LIFT = {"j2": 263, "j3": -161, "j4": 668}
+PRE_PLACE = {"j2": 90, "j3": 67, "j4": 614}
+PLACE_POS = {"j2": 90, "j3": 67, "j4": 614}
 
-# ===== temporary place poses (first draft, can refine later in lab) =====
-PRE_PLACE = {"j2": -820, "j3": 760, "j4": 373}
-PLACE_POS = {"j2": -820, "j3": 830, "j4": 350}
+J2_MIN = -1300
+J2_MAX = 500
 
-# ===== software safety limits =====
-J2_MIN = -1100
-J2_MAX = -550
-
-J3_MIN = 250
+J3_MIN = -250
 J3_MAX = 950
 
-J4_MIN = -500
-J4_MAX = 450
+J4_MIN = 350
+J4_MAX = 700

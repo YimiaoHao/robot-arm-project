@@ -59,3 +59,32 @@
 - Cause: code had evolved through multiple quick test edits and old versions were not fully cleaned up
 - Fix: planned cleanup so that only one active definition is kept for each movement function and only one active SAFE_RETRACT value is kept in config.py
 - Result: configuration is now being simplified around one fixed pick pose and one fixed safe intermediate pose
+
+## Issue 10
+- Problem: COM-port assumptions became unreliable across different lab sessions / devices
+- Cause: the connected arm / USB assignment changed, so previous COM values were no longer valid
+- Fix: rechecked the real COM port before testing and updated the Python-side configuration accordingly
+- Result: communication was restored and read_current_pose.py worked again on the current setup
+
+## Issue 11
+- Problem: pose values collected earlier did not appear to match the current device/setup consistently
+- Cause: earlier values were collected under a different hardware/session state, so pose references were not safely interchangeable
+- Fix: stopped mixing old and new pose values, and started rebuilding a fresh current-device pose set
+- Result: the project now has a cleaner current-device calibration direction
+
+## Issue 12
+- Problem: SAFE_RETRACT-style values became inconsistent when switching setups, making the motion plan harder to trust
+- Cause: pose capture was happening across different device states and COM contexts
+- Fix: shifted the short-term strategy from “reusing all older points” to “rebuilding one current-device workflow”
+- Result: the new path is now being reframed around:
+  - START_POSE
+  - PRE_PICK
+  - POST_PICK_LIFT
+  - PRE_PLACE
+  - PLACE_POS / release
+
+## Issue 13
+- Problem: the new current-device path was only partially captured and not fully validated before the arm was taken back
+- Cause: lab access time ended before a full physical re-test could be completed
+- Fix: recorded the new current-device candidate poses for the next session instead of guessing from memory
+- Result: the next lab can begin from real captured values rather than restarting from scratch

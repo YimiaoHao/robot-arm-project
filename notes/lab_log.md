@@ -105,3 +105,70 @@
 - Re-test SAFE_RETRACT -> PRE_PICK only
 - Re-test PRE_PICK -> CENTER_PICK only
 - After that, continue toward fixed pick -> fixed place -> return-home
+
+## Lab Session 3
+- Date: 16/04/2026
+- Team members present: Yimiao, Hafza
+
+## What We Tested
+- Real-arm reconnect on a different lab setup / device state
+- COM-port rechecking before Python testing
+- Python read_current_pose.py on the currently connected arm
+- Manual FlowArm pose collection for the current device only
+- Rebuilding a new fixed pick/transfer path using the current device’s pose values
+
+## What Worked
+- The arm could connect again after updating the COM port to match the current machine
+- read_current_pose.py worked reliably for the current device
+- A current-device start pose was captured successfully:
+  - J2 = -1191
+  - J3 = 893
+  - J4 = 575
+- New working candidate poses were also captured on the same current device:
+  - Candidate PRE_PICK:
+    - J2 = 338
+    - J3 = -96
+    - J4 = 465
+  - Candidate POST_PICK_LIFT:
+    - J2 = 263
+    - J3 = -161
+    - J4 = 668
+  - Candidate PRE_PLACE / release area:
+    - J2 = 90
+    - J3 = 67
+    - J4 = 614
+
+## What Did Not Work Smoothly
+- COM-port values were not stable across different sessions / setups, so older COM assumptions were no longer fully reliable
+- Previously collected pose values from another setup could not safely be assumed to match the current device
+- Candidate SAFE_RETRACT values became inconsistent when switching between different hardware states / ports
+- The new full path was not yet physically validated before the arm was taken back
+
+## Current Conclusion
+- The project now needs to treat the current lab setup as its own calibration context
+- Old pose values and current-device pose values should not be mixed without validation
+- The next real-arm session should use one consistent set of current-device poses only
+- The short-term action path is now better understood as:
+  - START_POSE
+  - PRE_PICK
+  - POST_PICK_LIFT
+  - PRE_PLACE
+  - PLACE_POS / release
+- At this stage, the fixed transfer workflow is more realistic than multi-zone behaviour
+
+## Safety Notes
+- Real-arm values should be collected and tested on the same device/session whenever possible
+- A pose captured on one setup should not automatically be trusted on a different setup
+- Motion planning remains the main safety risk, more than basic camera detection
+- Conservative testing is still required before any full automatic sequence is trusted
+
+## Next Actions
+- Clean config.py so it contains only one active current-device pose set
+- Re-test PRE_PICK only on the same current device
+- Re-test PRE_PICK -> POST_PICK_LIFT
+- Re-test POST_PICK_LIFT -> PRE_PLACE
+- Then test a minimal fixed transfer:
+  - PRE_PICK -> close
+  - POST_PICK_LIFT
+  - PRE_PLACE -> open
+- Only after that, continue to a lower final place pose and then return-home
