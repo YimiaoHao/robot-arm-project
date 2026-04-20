@@ -89,19 +89,23 @@ def move_joint_4(position):
     time.sleep(0.4)
 
 
-def open_gripper():
+def open_gripper(position=None):
     if servo5 is None:
         print("Gripper not connected")
         return
-    servo5.move(GRIPPER_OPEN)
+    target = GRIPPER_OPEN if position is None else position
+    print(f"Gripper open target={target}")
+    servo5.move(target)
     time.sleep(0.6)
 
 
-def close_gripper():
+def close_gripper(position=None):
     if servo5 is None:
         print("Gripper not connected")
         return
-    servo5.move(GRIPPER_CLOSE)
+    target = GRIPPER_CLOSE if position is None else position
+    print(f"Gripper close target={target}")
+    servo5.move(target)
     time.sleep(0.6)
 
 

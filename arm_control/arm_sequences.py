@@ -1,125 +1,82 @@
 import time
+from arm_control.arm_basic import (
+    move_joint_1,
+    move_joint_2,
+    move_joint_3,
+    move_joint_4,
+    open_gripper,
+    close_gripper,
+)
 from arm_control.config import (
-    COM_PORT,
-    HOME_J1, HOME_J2, HOME_J3, HOME_J4,
-    GRIPPER_OPEN, GRIPPER_CLOSE,
-    J1_MIN, J1_MAX,
-    J2_MIN, J2_MAX,
-    J3_MIN, J3_MAX,
-    J4_MIN, J4_MAX,
+    SAFE_RETRACT,
+    PRE_PICK,
+    CENTER_PICK,
+    POST_PICK_LIFT,
+    PRE_PLACE,
+    PLACE_POS,
+    HOME_J1,
+    HOME_J2,
+    HOME_J3,
+    HOME_J4,
+    GRIPPER_PICK_OPEN,
+    GRIPPER_RELEASE_OPEN,
 )
 
-try:
-    import lss
-    import lss_const as lssc
-except ImportError:
-    lss = None
-    lssc = None
+
+def move_pose(pose, name):
+    print(f"Moving to {name}: {pose}")
+    move_joint_1(pose["j1"])
+    time.sleep(0.8)
+    move_joint_2(pose["j2"])
+    time.sleep(0.8)
+    move_joint_3(pose["j3"])
+    time.sleep(0.8)
+    move_joint_4(pose["j4"])
+    time.sleep(1.0)
 
 
-servo1 = None
-servo2 = None
-servo3 = None
-servo4 = None
-servo5 = None
+def pick_sequence(target_zone="CENTER"):
+    print("Pick sequence started.")
+
+    open_gripper(GRIPPER_PICK_OPEN)
+    time.sleep(1)
+
+    move_pose(SAFE_RETRACT, "SAFE_RETRACT")
+    move_pose(PRE_PICK, "PRE_PICK")
+    move_pose(CENTER_PICK, "CENTER_PICK")
+
+    close_gripper()
+    time.sleep(1)
+
+    move_pose(POST_PICK_LIFT, "POST_PICK_LIFT")
+
+    print("Pick sequence completed.")
 
 
-def clamp(value, min_value, max_value):
-    return max(min_value, min(value, max_value))
+def place_sequence():
+    print("Place sequence started.")
+
+    move_pose(PRE_PLACE, "PRE_PLACE")
+    move_pose(PLACE_POS, "PLACE_POS")
+
+    open_gripper(GRIPPER_RELEASE_OPEN)
+    time.sleep(1)
+
+    print("Place sequence completed.")
 
 
-def connect_arm():
-    global servo1, servo2, servo3, servo4, servo5
+def return_home_sequence():
+    print("Return-home sequence started.")
 
-    if lss is None or lssc is None:
-        print("LSS library not installed yet.")
-        return False
+    move_pose(SAFE_RETRACT, "SAFE_RETRACT")
 
-    try:
-        lss.initBus(COM_PORT, lssc.LSS_DefaultBaud)
-        servo1 = lss.LSS(1)
-        servo2 = lss.LSS(2)
-        servo3 = lss.LSS(3)
-        servo4 = lss.LSS(4)
-        servo5 = lss.LSS(5)
-        print(f"Connected to robotic arm on {COM_PORT}")
-        return True
-    except Exception as e:
-        print(f"Failed to connect arm on {COM_PORT}: {e}")
-        return False
-
-
-def move_joint_1(position):
-    if servo1 is None:
-        print("Servo 1 not connected")
-        return
-    safe_pos = clamp(position, J1_MIN, J1_MAX)
-    print(f"J1 request={position}, safe={safe_pos}")
-    servo1.move(safe_pos)
-    time.sleep(0.4)
-
-
-def move_joint_2(position):
-    if servo2 is None:
-        print("Servo 2 not connected")
-        return
-    safe_pos = clamp(position, J2_MIN, J2_MAX)
-    print(f"J2 request={position}, safe={safe_pos}")
-    servo2.move(safe_pos)
-    time.sleep(0.4)
-
-
-def move_joint_3(position):
-    if servo3 is None:
-        print("Servo 3 not connected")
-        return
-    safe_pos = clamp(position, J3_MIN, J3_MAX)
-    print(f"J3 request={position}, safe={safe_pos}")
-    servo3.move(safe_pos)
-    time.sleep(0.4)
-
-
-def move_joint_4(position):
-    if servo4 is None:
-        print("Servo 4 not connected")
-        return
-    safe_pos = clamp(position, J4_MIN, J4_MAX)
-    print(f"J4 request={position}, safe={safe_pos}")
-    servo4.move(safe_pos)
-    time.sleep(0.4)
-
-
-def open_gripper():
-    if servo5 is None:
-        print("Gripper not connected")
-        return
-    servo5.move(GRIPPER_OPEN)
-    time.sleep(0.6)
-
-
-def close_gripper():
-    if servo5 is None:
-        print("Gripper not connected")
-        return
-    servo5.move(GRIPPER_CLOSE)
-    time.sleep(0.6)
-
-
-def go_home():
     move_joint_1(HOME_J1)
+    time.sleep(0.8)
     move_joint_2(HOME_J2)
+    time.sleep(0.8)
     move_joint_3(HOME_J3)
+    time.sleep(0.8)
     move_joint_4(HOME_J4)
-    print("Returned to home position")
+    time.sleep(0.8)
 
-
-def safe_stop():
-    global servo1, servo2, servo3, servo4, servo5
-    print("Emergency stop triggered")
-
-    for servo in [servo1, servo2, servo3, servo4, servo5]:
-        if servo is not None:
-            try:
-                servo.hold()
-            except Exception as e:
-                print(f"Safe stop warning: {e}")
+    print("Returned to home safely.")
