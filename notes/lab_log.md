@@ -172,3 +172,66 @@
   - POST_PICK_LIFT
   - PRE_PLACE -> open
 - Only after that, continue to a lower final place pose and then return-home
+
+## Lab Session 4
+- Date: 20/04/2026
+- Team members present: Yimiao, Hafza
+
+## What We Tested
+- Reconnected the robotic arm on the previous COM10 setup
+- Rechecked the real COM port before testing
+- Updated read_current_pose.py so that J1 / J2 / J3 / J4 / Gripper could all be read
+- Rebuilt the motion code to include base rotation (J1), not only planar arm motion
+- Re-measured a new device-specific fixed sequence for:
+  - start pose
+  - light retract / lift
+  - forward-lean approach
+  - wrist-down approach
+  - lower fine-tuning
+  - pre-pick
+  - grasp
+  - post-pick lift
+  - pre-place / turning pose
+  - release pose
+  - return / retract poses
+- Re-tested the fixed pick-transfer sequence
+- Re-tested the camera + robotic-arm integration through main_pick_place.py
+
+## What Worked
+- The arm connected successfully on COM10
+- read_current_pose.py worked correctly on the current device and returned J1 together with J2, J3, J4, and gripper values
+- The main previous limitation was identified more clearly: earlier code only moved within one main plane because base rotation was not fully included
+- After adding J1 into the control logic, the arm could perform a real turning motion toward the place side instead of only moving in a 2D-style plane
+- A fuller device-specific fixed motion sequence was captured for the current device
+- The fixed sequence could now run through pick, lift, turn, and release more completely than before
+- The camera still detected the red target successfully
+- The camera-triggered workflow and the real-arm sequence were connected again through main_pick_place.py
+
+## What Did Not Work Smoothly
+- Some slight contact still occurred near the final release / place stage
+- The final release required a larger gripper opening than earlier versions
+- Because the hardware setup changed again, older values from previous sessions were not safe to reuse directly
+- Final demonstration behaviour depended on using one fixed object position and one fixed place area
+
+## Current Conclusion
+- The project has now moved from separate vision tests and separate arm tests to a linked fixed-position workflow
+- A key improvement in this session was adding base rotation (J1) into the real motion path, which allowed an actual left/right transfer instead of only planar movement
+- The current project should be demonstrated as a fixed-position, camera-guided pick-and-transfer system
+- For the final demo, the safest approach is:
+  - use one fixed red object position
+  - use one fixed place area
+  - use the current-device pose set only
+  - keep release behaviour conservative
+
+## Safety Notes
+- Always confirm the real COM port before testing
+- Close FlowArm completely before running Python scripts
+- Do not mix pose values from different devices / sessions without validation
+- Keep the workspace clear during all real-arm tests
+- The final place / release stage should still be treated conservatively
+
+## Next Actions
+- Freeze the final demo parameters instead of continuing to expand scope
+- Use the fixed-position workflow for the teacher demonstration
+- Prepare screenshots / video evidence from the final sequence
+- Use the final notes to complete the short review / report sections

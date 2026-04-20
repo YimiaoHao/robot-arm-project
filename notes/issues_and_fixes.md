@@ -88,3 +88,33 @@
 - Cause: lab access time ended before a full physical re-test could be completed
 - Fix: recorded the new current-device candidate poses for the next session instead of guessing from memory
 - Result: the next lab can begin from real captured values rather than restarting from scratch
+
+## Issue 14
+- Problem: the arm could move forward and backward, but it did not clearly perform a true left/right turning transfer
+- Cause: earlier control logic mainly used J2, J3, and J4, so the arm behaviour remained close to a single working plane
+- Fix: added J1 (base rotation) into the code path, including reading J1 values, updating the control logic, and rebuilding the pose sequence with J1 included
+- Result: the arm could now perform a real turning motion toward the place side
+
+## Issue 15
+- Problem: after multiple code edits, the sequence file became inconsistent and some sequence functions were missing or not imported correctly
+- Cause: files had been edited repeatedly during rapid hardware testing and some older / incorrect content remained in place
+- Fix: rewrote the sequence file so that pick_sequence(), place_sequence(), and return_home_sequence() were clearly defined again
+- Result: imports succeeded and the fixed motion workflow could run again
+
+## Issue 16
+- Problem: switching back to a COM10-based device/setup required another round of calibration
+- Cause: the latest session was run on a different active setup, so previous pose values were not fully trustworthy
+- Fix: re-measured a new device-specific pose set on the COM10 setup, including start, approach, grasp, lift, turn, release, and retract stages
+- Result: one consistent current-device workflow was rebuilt for the final session
+
+## Issue 17
+- Problem: the object did not always release cleanly at the final place stage
+- Cause: the release gripper opening was initially too small, and the final place motion remained slightly aggressive
+- Fix: increased the release opening and adjusted the final release behaviour to be more conservative
+- Result: release became more workable, although slight contact could still occur near the final stage
+
+## Issue 18
+- Problem: before the final demonstration, the project still needed the camera and the robotic arm to be reconnected into one visible workflow
+- Cause: vision and motion had often been debugged separately in earlier sessions
+- Fix: re-ran the integrated workflow through main_pick_place.py using the updated device-specific fixed sequence
+- Result: the camera-guided and robot-executed workflow was connected again in one end-to-end test path

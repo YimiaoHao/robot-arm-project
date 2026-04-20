@@ -99,3 +99,34 @@ The latest session indicated that pose values should be treated as device/sessio
   - PRE_PLACE
   - PLACE_POS / release
 - A full automatic sequence has not yet been confirmed using this newer pose set
+
+## Updated J1 / Base Rotation Note
+- The latest session confirmed that base rotation must be treated as a core part of the motion path, not an optional add-on
+- Earlier behaviour that looked like “only planar motion” was largely due to missing or incomplete J1 use in the control workflow
+- Future pose capture should always include J1 together with J2, J3, J4, and gripper state
+
+## Updated COM10 Current-Device Motion Notes
+- A new device-specific motion set was captured again on the COM10 setup
+- This rebuilt set covered the full fixed sequence more completely:
+  - start pose
+  - light retract / lift
+  - forward approach
+  - wrist-down approach
+  - lower fine-tuning
+  - pre-pick
+  - grasp
+  - post-pick lift
+  - pre-place / turn
+  - release
+  - return / retract
+- These values should be treated as the active final-demo set for the current hardware session rather than being mixed with older pose sets
+
+## Updated Final Safety Interpretation
+- The main risk is no longer only the low pick pose itself
+- Motion safety now depends on the whole staged path, including base rotation, lift, turn, and release
+- The final release / place stage is still the most delicate part of the full workflow and should remain conservative
+- For the teacher demo, the safest practical approach is:
+  - one fixed red target position
+  - one fixed place location
+  - one current-device pose set
+  - no additional scope expansion beyond the fixed workflow
