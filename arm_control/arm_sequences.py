@@ -9,16 +9,22 @@ from arm_control.arm_basic import (
 )
 from arm_control.config import (
     SAFE_RETRACT,
+    LEAN_FORWARD,
+    WRIST_DOWN,
+    LOWER_FINE_TUNE,
     PRE_PICK,
     CENTER_PICK,
     POST_PICK_LIFT,
     PRE_PLACE,
     PLACE_POS,
+    RETURN_POSE,
+    RETRACT_ARM,
     HOME_J1,
     HOME_J2,
     HOME_J3,
     HOME_J4,
     GRIPPER_PICK_OPEN,
+    GRIPPER_CLOSE,
     GRIPPER_RELEASE_OPEN,
 )
 
@@ -42,10 +48,13 @@ def pick_sequence(target_zone="CENTER"):
     time.sleep(1)
 
     move_pose(SAFE_RETRACT, "SAFE_RETRACT")
+    move_pose(LEAN_FORWARD, "LEAN_FORWARD")
+    move_pose(WRIST_DOWN, "WRIST_DOWN")
+    move_pose(LOWER_FINE_TUNE, "LOWER_FINE_TUNE")
     move_pose(PRE_PICK, "PRE_PICK")
     move_pose(CENTER_PICK, "CENTER_PICK")
 
-    close_gripper()
+    close_gripper(GRIPPER_CLOSE)
     time.sleep(1)
 
     move_pose(POST_PICK_LIFT, "POST_PICK_LIFT")
@@ -68,7 +77,8 @@ def place_sequence():
 def return_home_sequence():
     print("Return-home sequence started.")
 
-    move_pose(SAFE_RETRACT, "SAFE_RETRACT")
+    move_pose(RETURN_POSE, "RETURN_POSE")
+    move_pose(RETRACT_ARM, "RETRACT_ARM")
 
     move_joint_1(HOME_J1)
     time.sleep(0.8)
